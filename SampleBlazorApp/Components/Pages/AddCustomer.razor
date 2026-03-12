@@ -1,0 +1,68 @@
+﻿@page "/customer/create"
+@rendermode InteractiveServer
+@inject DataService objService
+@inject NavigationManager navigationManager
+
+<PageTitle>Create Customer</PageTitle>
+<h2>Add Customer</h2>
+<hr />
+<EditForm Model="@customer" OnValidSubmit="OnValidSubmit" FormName="newcustomer">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <InputText id="name" class="form-control" @bind-value="customer.Name"></InputText>
+                <ValidationMessage For="@(() => customer.Name)" />
+            </div>
+            <div class="form-group">
+                <label for="City" class="control-label">City</label>
+                <InputText id="city" class="form-control" @bind-value="customer.City"></InputText>
+                <ValidationMessage For="@(() => customer.City)" />
+            </div>
+            <div class="form-group">
+                <label for="Country" class="control-label">Country</label>
+                <InputText id="country" class="form-control" @bind-value="customer.Country"></InputText>
+                <ValidationMessage For="@(() => customer.Country)" />
+            </div>
+            <div class="form-group">
+                <label for="Gender" class="control-label">Gender</label>
+                <InputSelect id="gender" class="form-select" @bind-value="customer.Gender">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => customer.Gender)" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    Customer customer;
+    protected override void OnInitialized()
+    {
+        customer = new Customer();
+    }
+
+    private void Cancel()
+    {
+        navigationManager.NavigateTo("/customer");
+    }
+
+    private void OnValidSubmit()
+    {
+        objService.Create(customer);
+        navigationManager.NavigateTo("/customer");
+    }
+}

@@ -1,0 +1,59 @@
+﻿@page "/customer"
+@rendermode InteractiveServer
+@inject DataService objService
+
+<PageTitle>Customers</PageTitle>
+
+<h2>Customers</h2>
+<hr />
+
+<NavLink class="btn btn-primary" href="/customer/create">
+    <span class="oi oi-plus" aria-hidden="true"></span> New Customer
+</NavLink>
+<div class="row mb-3"></div>
+
+@if (customers == null)
+{
+    <p><em>Customer Not Found.</em></p>
+}
+else
+{
+    <table class="table table-responsive table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>Gender</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Customer customer in customers)
+            {
+                <tr>
+                    <td>@customer.Name</td>
+                    <td>@customer.City</td>
+                    <td>@customer.Country</td>
+                    <td>@customer.Gender</td>
+                    <td>
+                        <a class="nav-link float-start" href="/customer/edit/@customer.CustomerId">
+                            <span class="oi oi-pencil" aria-hidden="true" title="Edit"></span>
+                        </a>
+                        <a class="nav-link float-start text-danger" href="/customer/delete/@customer.CustomerId">
+                            <span class="oi oi-trash" aria-hidden="true" title="Delete"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Customer>? customers;
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await Task.Run(() => objService.GetCustomers());
+    }
+}
