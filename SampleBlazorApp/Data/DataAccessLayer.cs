@@ -6,7 +6,7 @@ namespace SampleBlazorApp.Data
 {
     public class DataAccessLayer
     {
-        string constr = "Server=NPTGNSRV10;Database=TestDB;uid=sa;pwd=GnS@123;TrustServerCertificate=True;";
+        string constr = "Server=.;Database=TestDB;uid=sa;pwd=pass@123;TrustServerCertificate=True;";
 
         internal IEnumerable<Customer> GetAllCustomers()
         {
